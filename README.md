@@ -1,118 +1,122 @@
-# myFiubaGymbro 🏋️‍♂️
+# 🏋️‍♂️ MyFiubaGymBro
 
-This is the monorepo for **myFiubaGymbro**, an application to help FIUBA students stay fit and track healthy habits. It includes a **FastAPI backend**, a **React + TypeScript frontend**, and a shared **PostgreSQL database**, all running in a unified development container.
+**myFiubaGymBro** es una plataforma web desarrollada como trabajo práctico para FIUBA, pensada para ayudar a estudiantes a mantenerse en forma y llevar un registro saludable de sus hábitos. Está compuesta por un backend en **FastAPI**, un frontend en **React + TypeScript**, y una base de datos **PostgreSQL**, todo orquestado con Docker y lista para correr en DevContainers.
 
 ---
 
-## 📁 Project Structure
+## 📚 Índice
+
+- [📦 Tecnologías principales](#-tecnologías-principales)
+- [🧱 Estructura del proyecto](#-estructura-del-proyecto)
+- [⚙️ Requisitos previos](#️-requisitos-previos)
+- [🧪 Desarrollo local con DevContainer](#-desarrollo-local-con-devcontainer)
+- [🐘 Configuración de la base de datos](#-configuración-de-la-base-de-datos)
+- [🛠️ Backend (FastAPI)](#️-backend-fastapi)
+- [💻 Frontend (React + Vite)](#-frontend-react--vite)
+- [🐳 Docker Compose](#-docker-compose)
+- [👥 Integrantes](#-integrantes)
+
+---
+
+## 📦 Tecnologías principales
+
+- 🐍 **Python** + **FastAPI** + **SQLAlchemy**
+- 🧠 Arquitectura en capas (routers, dtos, services, repositories)
+- 🐘 **PostgreSQL** + **Alembic**
+- ⚛️ **React** + **TypeScript** + **Vite**
+- 🐳 Docker + Docker Compose
+- 🛠️ DevContainer para entorno de desarrollo consistente
+
+---
+
+## 🧱 Estructura del proyecto
 
 ```
 .
-├── backend/       # FastAPI backend
-├── frontend/      # React + Vite frontend
-├── .devcontainer/ # DevContainer configuration
-├── docker-compose.yml
-└── README.md
+├── .devcontainer/  # Configuración para DevContainer
+├── backend/        # Backend FastAPI
+├── frontend/       # Frontend React + Vite
+├── local-running/  # Scripts para correr con Docker Compose
+├── README.md
+├── package-lock.json
+└── setup.sh
 ```
 
 ---
 
-## 🚀 Features
+## ⚙️ Requisitos previos
 
-* FastAPI backend with SQLAlchemy and Alembic
-* React + TypeScript frontend using Vite
-* Shared PostgreSQL database
-* DevContainer for a consistent dev environment
-* Docker Compose orchestration
+- [Docker](https://www.docker.com/)
+- [Visual Studio Code](https://code.visualstudio.com/) + extensión **Dev Containers** (opcional pero recomendado)
 
 ---
 
-## 🧱 Prerequisites
+## 🧪 Desarrollo local con DevContainer
 
-* [Docker](https://www.docker.com/)
-* [Visual Studio Code](https://code.visualstudio.com/) with the **Dev Containers** extension (optional, recommended)
+1. Abrí el proyecto en VS Code.
+2. Si se te solicita, hacé clic en **"Reabrir en contenedor"**.
+3. El entorno se levantará automáticamente con:
+   - Backend: `http://localhost:8000`
+   - Frontend: `http://localhost:8080`
 
----
-
-## ⚙️ Setup with DevContainer (Recommended)
-
-1. Open the project in VS Code.
-2. When prompted, **"Reopen in Container"**.
-3. The services will spin up with:
-
-   * Backend accessible at `http://localhost:8000` (only when running)
-   * Frontend accessible at `http://localhost:8080` (only when running)
-   * PostgreSQL running internally
-
-> If not prompted, use `Ctrl+Shift+P → Dev Containers: Reopen in Container`.
+> Si no te aparece la opción, usá `Ctrl+Shift+P → Dev Containers: Reopen in Container`.
 
 ---
 
-## 🐘 Database
+## 🐘 Configuración de la base de datos
 
-A PostgreSQL 14 container is included via Docker Compose.
+La base PostgreSQL está definida en `docker-compose.yml`.
 
-### Connection details
+### Datos de conexión
 
-```env
+```
 Host: db
-Port: 5432
-User: postgres
-Password: secret
-Database: myfiubagymbro
+Puerto: 5432
+Usuario: postgres
+Contraseña: secret
+Base de datos: myfiubagymbro
 ```
 
-Use this in your `.env` file in the `backend/` folder:
+Agregar en el `.env` del backend:
 
 ```env
 DATABASE_URL=postgresql://postgres:secret@db:5432/myfiubagymbro
 ```
 
-You can connect with any SQL client using `localhost:5432` if ports are exposed.
-
 ---
 
-## 📦 Backend Setup (FastAPI)
+## 🛠️ Backend (FastAPI)
 
-### Local setup inside DevContainer
+### Instalación
 
 ```bash
 cd backend
 pip install -r requirements.txt
 ```
 
-### API Docs
-
-* Swagger UI: `http://localhost:8000/docs`
-* ReDoc: `http://localhost:8000/redoc`
-
-### Run migrations:
+### Correr migraciones
 
 ```bash
 alembic upgrade head
 ```
 
-> This ensures your database schema is up-to-date with the models. You must run this:
->
-> * When you **start the devcontainer** or **reset the DB**
-> * After you **pull changes** that include new migrations
-
-### Create a new migration after modifying models:
+### Crear nueva migración
 
 ```bash
-alembic revision --autogenerate -m "describe the change"
+alembic revision --autogenerate -m "descripcion"
 alembic upgrade head
 ```
 
-This will generate a new migration script based on your SQLAlchemy models and apply it to the DB.
-
-> ✅ Tip: You can include `alembic upgrade head` in your `start.sh` to ensure the DB is always in sync.
-
-### Start the server:
+### Ejecutar el servidor
 
 ```bash
 fastapi run src/main.py --port 8000
 ```
+
+### Acceder a la API
+
+- Swagger UI: [http://localhost:8000/docs](http://localhost:8000/docs)
+- ReDoc: [http://localhost:8000/redoc](http://localhost:8000/redoc)
 
 ### Tests
 
@@ -122,84 +126,54 @@ pytest
 
 ---
 
-## 💻 Frontend Setup (React + Vite)
+## 💻 Frontend (React + Vite)
 
-### Local setup inside DevContainer
+### Instalación
 
 ```bash
 cd frontend
 npm install
 ```
 
-### Run in Developer Mode
+### Modo desarrollo
 
 ```bash
-npm install
 npm run dev
 ```
 
-The app will be live at: `http://localhost:8080`
+Acceder en [http://localhost:8080](http://localhost:8080)
 
-### Run Production Build
+### Build de producción
 
-1. Build the app:
-
-   ```bash
-   npm run build
-   ```
-
-2. Preview the production build:
-
-   ```bash
-   npm run preview
-   ```
-
-### Access from Outside
-
-If running inside a devcontainer or Docker, ensure the port 8080 is forwarded or exposed. You can then access the app from your host machine at:
-
-```
-http://localhost:8080
+```bash
+npm run build
+npm run preview
 ```
 
 ---
 
-## 🤝 Contributing
+## 🐳 Docker Compose
 
-1. Fork the repository
-2. Create a new feature branch
-3. Commit and push your changes
-4. Open a pull request
+Si preferís usar Docker Compose directamente (fuera del DevContainer):
+
+```bash
+./start.sh   # Inicia todos los servicios
+./stop.sh    # Detiene todos los servicios
+```
+
+Accesos:
+
+- Frontend: [http://localhost:8080](http://localhost:8080)
+- Backend Docs: [http://localhost:8000/docs](http://localhost:8000/docs)
 
 ---
 
-## 📄 License
+## 👥 Integrantes
 
-MIT License
-
----
-
-## 🏠 Local Development with Docker Compose
-
-In addition to the DevContainer setup, there's a **local-running** folder that provides a full-stack development environment using `docker-compose`. This setup includes:
-
-### ▶️ Running the Project
-
-You can manage the entire stack using the provided scripts inside the `local-running` directory:
-
-* To start all services:
-
-  ```bash
-  ./start.sh
-  ```
-
-* To stop all services:
-
-  ```bash
-  ./stop.sh
-  ```
-
-Access the app locally:
-
-* Frontend: [http://localhost:8080](http://localhost:8080)
-* Backend API docs: [http://localhost:8000/docs](http://localhost:8000/docs)
+| Nombre                | Usuario de GitHub                                       |
+|-----------------------|---------------------------------------------------------|
+| Sebastián Brizuela    | [@SebaB29](https://github.com/SebaB29)                  |
+| Federico Solari       | [@FedericoSolari](https://github.com/FedericoSolari)    |
+| Luciano Gamberale     | [@lucianogamberale](https://github.com/lucianogamberale)|
+| Joaquín Velurtas      | [@joaquinvelurtas](https://github.com/joaquinvelurtas)  |
+| Santiago Rocco        | [@SantiagoRocco](https://github.com/SantiagoRocco)      |
