@@ -65,7 +65,7 @@ A detailed platform for student wellness. It uses a layered architecture (router
    * Backend: `http://localhost:8000`
    * Frontend: `http://localhost:8080`
 
-# 🛠️ Manual Backend Setup
+## 🛠️ Manual Backend Setup
 ```bash
 cd backend
 pip install -r requirements.txt
@@ -75,7 +75,7 @@ fastapi run src/main.py --port 8000
 * API Docs: http://localhost:8000/docs
 * Tests: Run `pytest` inside the backend folder.
 
-# 💻 Manual Frontend Setup
+## 💻 Manual Frontend Setup
 ```bash
 cd frontend
 npm install
@@ -83,7 +83,7 @@ npm run dev
 ```
 * Access at: http://localhost:8080
 
-# 🐳 Docker Compose
+## 🐳 Docker Compose
 To run everything without DevContainers:
 ```bash
 ./start.sh   # Starts all services
